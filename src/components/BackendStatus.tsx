@@ -1,6 +1,7 @@
 import useFetch from "../hooks/useFetch";
 
 //kommentar
+//KOmmentar
 
 const BackendStatus = () => {
   const { data, loading, error } = useFetch<string>("http://localhost:3000/");
