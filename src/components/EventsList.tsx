@@ -1,11 +1,23 @@
 import moment from "moment"
 import useFetch from "../hooks/useFetch"
 import { Event } from "../interfaces"
+import { useState } from "react"
+import EventDetails from "./EventDetails"
 
 const EventsList = () => {
   const { data, loading, error } = useFetch<Event[]>(
     "http://localhost:3000/events"
   )
+
+  const [eventSelected, setEventSelected] = useState<Event | null>(null)
+
+  const handleEventClick = (event: Event) => {
+    setEventSelected(event)
+  }
+
+  const handleClose = () => {
+    setEventSelected(null)
+  }
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error: {error}</p>
@@ -20,14 +32,11 @@ const EventsList = () => {
               key={event._id}
               className={`${
                 index % 2 === 0 ? "bg-slate-400" : "bg-slate-300"
-              } p-2`}
+              } p-2 hover:bg-slate-200 cursor-pointer`}
+              onClick={() => handleEventClick(event)}
             >
               <p>{event.title}</p>
-              <p>
-                {event.location?.physical}
-                <span> </span>
-                {moment(event.startDate).format("YYYY-MM-DD")}
-              </p>
+              <p>{moment(event.startDate).format("YYYY-MM-DD")}</p>
               <p>{event.nameOrOrganisation}</p>
             </div>
           ))
@@ -35,6 +44,9 @@ const EventsList = () => {
           <p>No events found</p>
         )}
       </div>
+      {eventSelected && (
+        <EventDetails event={eventSelected} onClose={handleClose} />
+      )}
     </div>
   )
 }

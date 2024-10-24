@@ -2,19 +2,6 @@ export interface Event {
   _id: string
   title: string
   nameOrOrganisation: string
-  location: {
-    physical: string
-    virtual?: string
-  }
-  registration: {
-    requiresRegistration?: boolean
-    approvalRequired?: boolean
-    invitationRequired?: boolean
-    payment?: {
-      required?: boolean
-      paid?: boolean
-    }
-  }
   startDate: string
   endDate?: string
   startTime: string
@@ -34,6 +21,15 @@ export interface Location {
 export interface Organisation {
   name: string
   email: string
+}
+
+export interface Registration {
+  _id: string
+  requiresRegistration: boolean
+  approvalRequired: boolean
+  invitationRequired: boolean
+  payment: boolean
+  paid: boolean
 }
 
 export interface User {
